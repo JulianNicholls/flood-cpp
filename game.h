@@ -1,5 +1,5 @@
-#ifndef RAYLIB_GAME_H
-#define RAYLIB_GAME_H
+#ifndef GAME_H
+#define GAME_H
 
 #include "raylib.h"
 
@@ -40,4 +40,4 @@ class Game
 };
 }
 
-#endif // RAYLIB_GAME_H
+#endif // GAME_H

@@ -74,6 +74,6 @@ void Game::draw() const
 
 void Game::say_click_to_continue() const
 {
-    centre(window_, font_, "Click to Continue", 800, 36, 0, SKYBLUE);
+    centre(window_, font_, "Click to Continue", 800, 36, 0, DARKBLUE);
 }
 }
