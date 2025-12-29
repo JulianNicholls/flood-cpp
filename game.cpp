@@ -1,6 +1,7 @@
 #include "raylib.h"
 
 #include "game.h"
+#include "resources.h"
 
 namespace
 {
@@ -40,11 +41,11 @@ Game::Game(const CPPRaylib::Window &window)
     , state_{GameState::STARTING}
     , font_{LoadFontEx("../assets/BebasNeue-Regular.ttf", 24, nullptr, 0)}
     , images_{ImageLoader{"../assets"}}
+    , grid_{Constants::GridOrigin, Constants::Rows, Constants::Columns}
 {
     ::SetTargetFPS(60);
     // ::SetExitKey(0); // Disable Esc to exit
 }
-
 
 void Game::run()
 {
@@ -62,14 +63,16 @@ void Game::run()
 
 void Game::update()
 {
-  ::ClearBackground(WHITE);
-
-  say_click_to_continue();
+    grid_.update();
 }
 
 void Game::draw() const
 {
+    ::ClearBackground(WHITE);
 
+    grid_.draw();
+
+    say_click_to_continue();
 }
 
 void Game::say_click_to_continue() const

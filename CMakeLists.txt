@@ -30,6 +30,7 @@ FetchContent_MakeAvailable(raylib)
 add_executable(flood
     flood.cpp
     game.cpp
+    block_grid.cpp
     images.cpp
 )
 

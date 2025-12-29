@@ -1,6 +1,7 @@
 #include "raylib.h"
 
 #include "game.h"
+#include "resources.h"
 
 int main()
 {
@@ -9,7 +10,7 @@ int main()
 
     ::SetTraceLogLevel(LOG_WARNING);
 
-    CPPRaylib::Window window{600, 900, "Flood Puzzle"};
+    CPPRaylib::Window window{Flood::Constants::Width, Flood::Constants::Height, "Flood Puzzle"};
     Flood::Game game{window};
 
     game.run();

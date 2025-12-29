@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 
+#include "block_grid.h"
 #include "images.h"
 #include "window.h"
 
@@ -34,6 +35,7 @@ class Game
     GameState state_;
     ::Font font_;
     ImageLoader images_;
+    BlockGrid grid_;
 
     // const static std::unordered_map<GameState, void (Game::*)()> updates_;
     // const static std::unordered_map<GameState, void (Game::*)() const> draws_;
