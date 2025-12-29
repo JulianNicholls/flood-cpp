@@ -5,6 +5,7 @@
 
 #include "block.h"
 #include "block_grid.h"
+#include "log.h"
 #include "resources.h"
 
 static std::random_device rd;
@@ -37,6 +38,14 @@ BlockGrid::BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns)
 
 void BlockGrid::update()
 {
+    if (!::IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        return;
+
+    const auto mpos = ::GetMousePosition();
+    const ::Vector2 relpos{mpos.x - pos_.x, mpos.y - pos_.y};
+    const ::Vector2 idxpos{relpos.x / Constants::BlockSize, relpos.y / Constants::BlockSize};
+
+    log::debug("Pos: ({}, {}) -> ({}, {}), idx ({}, {})", mpos.x, mpos.y, relpos.x, relpos.y, idxpos.x, idxpos.y);
 }
 
 void BlockGrid::draw() const
