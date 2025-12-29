@@ -2,7 +2,9 @@
 #define BLOCKGRID_H
 
 #include <cstddef>
+#include <vector>
 
+#include "block.h"
 #include "raylib.h"
 
 namespace Flood
@@ -10,12 +12,7 @@ namespace Flood
 class BlockGrid
 {
   public:
-    BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns)
-        : pos_{pos}
-        , rows_{rows}
-        , columns_{columns}
-    {
-    }
+    BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns);
 
     void update();
     void draw() const;
@@ -24,6 +21,7 @@ class BlockGrid
     ::Vector2 pos_;
     std::size_t columns_;
     std::size_t rows_;
+    std::vector<std::vector<Block>> blocks_;
 };
 }
 

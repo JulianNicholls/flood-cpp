@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <array>
+
 #include "raylib.h"
 
 namespace Flood::Constants
@@ -16,6 +18,9 @@ inline constexpr ::Vector2 GridOrigin = {BorderSize, BorderSize * 2 + HeaderHeig
 
 inline constexpr auto Width = BorderSize * 2 + Columns * BlockSize;
 inline constexpr auto Height = BorderSize * 3 + HeaderHeight + Rows * BlockSize + 2 * Margin + BlockSize;
+
+inline constexpr std::array<::Color, 6> ColorTable =
+    {ORANGE, DARKBLUE, DARKPURPLE, YELLOW, GREEN, ::Color{0, 200, 200, 255}};
 }
 
 #endif // CONSTANTS_H

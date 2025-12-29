@@ -68,7 +68,8 @@ void Game::update()
 
 void Game::draw() const
 {
-    ::ClearBackground(WHITE);
+    //::ClearBackground(WHITE);
+    ::DrawTextureV(images_.at("background"), {0, 0}, WHITE);
 
     grid_.draw();
 

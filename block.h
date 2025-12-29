@@ -12,7 +12,7 @@ class Block
   public:
     Block(::Vector2 pos, ::Color colour)
         : pos_{pos}
-        , size_{::Vector2{Constants::BlockSize, Constants::BlockSize}}
+        , size_{Constants::BlockSize, Constants::BlockSize}
         , colour_{colour}
     {
     }
