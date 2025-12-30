@@ -1,6 +1,9 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include <format>
+#include <string>
+
 #include "raylib.h"
 
 #include "resources.h"
@@ -27,10 +30,20 @@ class Block
         colour_ = new_colour;
     }
 
+    ::Color colour()
+    {
+        return colour_;
+    }
+
   private:
     ::Vector2 pos_;
     ::Vector2 size_;
     ::Color colour_;
 };
+
+inline std::string to_string(const ::Color &c)
+{
+    return std::format("[{}, {}, {}, {}]", c.r, c.g, c.b, c.a);
+}
 }
 #endif // BLOCK_H

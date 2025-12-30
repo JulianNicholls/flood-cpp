@@ -11,6 +11,12 @@ namespace Flood
 {
 class BlockGrid
 {
+    struct GridPos
+    {
+        size_t col;
+        size_t row;
+    };
+
   public:
     BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns);
 
@@ -18,6 +24,16 @@ class BlockGrid
     void draw() const;
 
   private:
+    Block &block(GridPos pos)
+    {
+        return block(pos.col, pos.row);
+    };
+
+    Block &block(std::size_t col, std::size_t row)
+    {
+        return blocks_[row][col];
+    };
+
     ::Vector2 pos_;
     std::size_t columns_;
     std::size_t rows_;

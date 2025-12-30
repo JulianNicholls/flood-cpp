@@ -43,9 +43,19 @@ void BlockGrid::update()
 
     const auto mpos = ::GetMousePosition();
     const ::Vector2 relpos{mpos.x - pos_.x, mpos.y - pos_.y};
-    const ::Vector2 idxpos{relpos.x / Constants::BlockSize, relpos.y / Constants::BlockSize};
+    const GridPos idxpos{
+        static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
+    const ::Color colour = block(idxpos).colour();
 
-    log::debug("Pos: ({}, {}) -> ({}, {}), idx ({}, {})", mpos.x, mpos.y, relpos.x, relpos.y, idxpos.x, idxpos.y);
+    log::debug(
+        "Pos: ({}, {}) -> ({}, {}), idx ({}, {}) {}",
+        mpos.x,
+        mpos.y,
+        relpos.x,
+        relpos.y,
+        idxpos.col,
+        idxpos.row,
+        to_string(colour));
 }
 
 void BlockGrid::draw() const
