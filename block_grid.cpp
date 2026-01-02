@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <random>
 #include <vector>
 
@@ -13,6 +14,7 @@ static std::uniform_int_distribution<std::size_t> rand_idx{0, Flood::Constants::
 
 namespace Flood
 {
+
 BlockGrid::BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns)
     : pos_{pos}
     , rows_{rows}
@@ -47,15 +49,9 @@ void BlockGrid::update()
         static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
     const ::Color colour = block(idxpos).colour();
 
-    log::debug(
-        "Pos: ({}, {}) -> ({}, {}), idx ({}, {}) {}",
-        mpos.x,
-        mpos.y,
-        relpos.x,
-        relpos.y,
-        idxpos.col,
-        idxpos.row,
-        to_string(colour));
+    // log::debug("Pos: idx ({}, {}) {}", idxpos.col, idxpos.row, to_string(colour));
+
+    flip_colours(colour);
 }
 
 void BlockGrid::draw() const
@@ -68,4 +64,49 @@ void BlockGrid::draw() const
         }
     }
 }
+
+void BlockGrid::flip_colours(::Color colour)
+{
+    const auto top_left = block(0, 0).colour();
+    std::vector<GridPos> list{{0, 0}};
+    const auto queued = [&list](GridPos pos) { return std::find(list.cbegin(), list.cend(), pos) != list.cend(); };
+
+    for (std::size_t idx = 0; idx < list.size(); ++idx)
+    {
+        for (GridPos pos : neighbours(list[idx]))
+        {
+            if (!queued(pos) && block(pos).is(top_left))
+            {
+                list.push_back(pos);
+            }
+        }
+    }
+
+    log::debug("list: {} entries", list.size());
+
+    for (GridPos pos : list)
+    {
+        block(pos).change_colour(colour);
+    }
+}
+
+std::vector<BlockGrid::GridPos> BlockGrid::neighbours(GridPos pos) const
+{
+    std::vector<GridPos> neighs{};
+
+    for (std::size_t row = pos.row > 0 ? pos.row - 1 : 0; row < std::min(pos.row + 2, blocks_.size()); ++row)
+    {
+        for (std::size_t col = pos.col > 0 ? pos.col - 1 : 0; col < std::min(pos.col + 2, blocks_[0].size()); ++col)
+        {
+            log::debug("Cand: ({}, {})", col, row);
+            if (col != pos.col || row != pos.row)
+                neighs.emplace_back(col, row);
+        }
+    }
+
+    log::debug("neighs: {} entries", neighs.size());
+
+    return neighs;
+}
+
 }

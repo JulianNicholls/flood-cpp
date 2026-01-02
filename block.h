@@ -10,6 +10,7 @@
 
 namespace Flood
 {
+
 class Block
 {
   public:
@@ -35,6 +36,11 @@ class Block
         return colour_;
     }
 
+    bool is(::Color cand)
+    {
+        return colour_.r == cand.r && colour_.g == cand.g && colour_.b == cand.b && colour_.a == cand.a;
+    }
+
   private:
     ::Vector2 pos_;
     ::Vector2 size_;
@@ -45,5 +51,7 @@ inline std::string to_string(const ::Color &c)
 {
     return std::format("[{}, {}, {}, {}]", c.r, c.g, c.b, c.a);
 }
+
 }
+
 #endif // BLOCK_H
