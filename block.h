@@ -31,12 +31,12 @@ class Block
         colour_ = new_colour;
     }
 
-    ::Color colour()
+    ::Color colour() const
     {
         return colour_;
     }
 
-    bool is(::Color cand)
+    bool is(::Color cand) const
     {
         return colour_.r == cand.r && colour_.g == cand.g && colour_.b == cand.b && colour_.a == cand.a;
     }

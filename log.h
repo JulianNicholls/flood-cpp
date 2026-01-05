@@ -15,24 +15,6 @@
 namespace Flood::log
 {
 
-inline std::vector<std::string> history{};
-
-namespace impl
-{
-
-inline static auto log_file = []
-{
-    auto f = std::ofstream{"log", std::ios::app};
-    if (!f)
-    {
-        std::terminate();
-    }
-
-    return f;
-}();
-
-}
-
 enum class Level
 {
     DEBUG,

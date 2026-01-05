@@ -6,7 +6,6 @@
 
 #include "block.h"
 #include "block_grid.h"
-#include "log.h"
 #include "resources.h"
 
 static std::random_device rd;
@@ -49,8 +48,6 @@ void BlockGrid::update()
         static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
     const ::Color colour = block(idxpos).colour();
 
-    // log::debug("Pos: idx ({}, {}) {}", idxpos.col, idxpos.row, to_string(colour));
-
     flip_colours(colour);
 }
 
@@ -82,8 +79,6 @@ void BlockGrid::flip_colours(::Color colour)
         }
     }
 
-    log::debug("list: {} entries", list.size());
-
     for (GridPos pos : list)
     {
         block(pos).change_colour(colour);
@@ -98,13 +93,10 @@ std::vector<BlockGrid::GridPos> BlockGrid::neighbours(GridPos pos) const
     {
         for (std::size_t col = pos.col > 0 ? pos.col - 1 : 0; col < std::min(pos.col + 2, blocks_[0].size()); ++col)
         {
-            log::debug("Cand: ({}, {})", col, row);
             if (col != pos.col || row != pos.row)
                 neighs.emplace_back(col, row);
         }
     }
-
-    log::debug("neighs: {} entries", neighs.size());
 
     return neighs;
 }

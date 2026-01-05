@@ -37,6 +37,8 @@ class Game
     ImageLoader images_;
     BlockGrid grid_;
 
+    unsigned int moves_ = 0;
+
     // const static std::unordered_map<GameState, void (Game::*)()> updates_;
     // const static std::unordered_map<GameState, void (Game::*)() const> draws_;
 };
