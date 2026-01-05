@@ -37,10 +37,10 @@ BlockGrid::BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns)
     }
 }
 
-void BlockGrid::update()
+bool BlockGrid::update()
 {
     if (!::IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        return;
+        return false;
 
     const auto mpos = ::GetMousePosition();
     const ::Vector2 relpos{mpos.x - pos_.x, mpos.y - pos_.y};
@@ -48,7 +48,7 @@ void BlockGrid::update()
         static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
     const ::Color colour = block(idxpos).colour();
 
-    flip_colours(colour);
+    return flip_colours(colour);
 }
 
 void BlockGrid::draw() const
@@ -62,9 +62,14 @@ void BlockGrid::draw() const
     }
 }
 
-void BlockGrid::flip_colours(::Color colour)
+bool BlockGrid::flip_colours(::Color colour)
 {
     const auto top_left = block(0, 0).colour();
+
+    // if the top left is already the clicked colour return that we didn't flip anything
+    if (block(0, 0).is(colour))
+        return false;
+
     std::vector<GridPos> list{{0, 0}};
     const auto queued = [&list](GridPos pos) { return std::find(list.cbegin(), list.cend(), pos) != list.cend(); };
 
@@ -83,19 +88,32 @@ void BlockGrid::flip_colours(::Color colour)
     {
         block(pos).change_colour(colour);
     }
+
+    return true; // We changed at least one block;
 }
 
 std::vector<BlockGrid::GridPos> BlockGrid::neighbours(GridPos pos) const
 {
     std::vector<GridPos> neighs{};
 
-    for (std::size_t row = pos.row > 0 ? pos.row - 1 : 0; row < std::min(pos.row + 2, blocks_.size()); ++row)
+    if (pos.row > 0)
     {
-        for (std::size_t col = pos.col > 0 ? pos.col - 1 : 0; col < std::min(pos.col + 2, blocks_[0].size()); ++col)
-        {
-            if (col != pos.col || row != pos.row)
-                neighs.emplace_back(col, row);
-        }
+        neighs.emplace_back(pos.col, pos.row - 1);
+    }
+
+    if (pos.col > 0)
+    {
+        neighs.emplace_back(pos.col - 1, pos.row);
+    }
+
+    if (pos.row < blocks_.size() - 1)
+    {
+        neighs.emplace_back(pos.col, pos.row + 1);
+    }
+
+    if (pos.col < blocks_[0].size() - 1)
+    {
+        neighs.emplace_back(pos.col + 1, pos.row);
     }
 
     return neighs;

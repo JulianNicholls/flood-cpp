@@ -14,7 +14,7 @@ class BlockGrid
   public:
     BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns);
 
-    void update();
+    bool update();
     void draw() const;
 
   private:
@@ -39,7 +39,7 @@ class BlockGrid
         return blocks_[row][col];
     };
 
-    void flip_colours(::Color colour);
+    bool flip_colours(::Color colour);
     std::vector<GridPos> neighbours(GridPos pos) const;
 
     ::Vector2 pos_;

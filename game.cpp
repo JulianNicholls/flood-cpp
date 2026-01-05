@@ -64,20 +64,22 @@ void Game::run()
 
 void Game::update()
 {
-    grid_.update();
+    if (grid_.update())
+        ++moves_;
 }
 
 void Game::draw() const
 {
     const auto elapsed = static_cast<int>(::GetTime());
     const auto time = std::format("{}:{:0>2}", elapsed / 60, elapsed % 60);
+    const auto moves = std::format("{} / 25", moves_);
     const auto size = ::MeasureTextEx(font_, time.c_str(), 30, 1);
     const ::Vector2 timePos = {Constants::Width - (Constants::BorderSize * 4) - size.x, Constants::BorderSize + 7};
 
     //::ClearBackground(WHITE);
     ::DrawTextureV(images_.at("background"), {0, 0}, WHITE);
 
-    ::DrawTextEx(font_, "0 / 25", {Constants::BorderSize * 4, Constants::BorderSize + 7}, 30, 1, WHITE);
+    ::DrawTextEx(font_, moves.c_str(), {Constants::BorderSize * 4, Constants::BorderSize + 7}, 30, 1, WHITE);
     ::DrawTextEx(font_, time.c_str(), timePos, 30, 1, WHITE);
 
     grid_.draw();
