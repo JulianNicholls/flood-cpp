@@ -9,9 +9,9 @@
 
 namespace Flood
 {
+
 enum struct GameState
 {
-    STARTING,
     PLAYING,
     SUCCESS,
     FAILURE,
@@ -42,6 +42,7 @@ class Game
     // const static std::unordered_map<GameState, void (Game::*)()> updates_;
     // const static std::unordered_map<GameState, void (Game::*)() const> draws_;
 };
+
 }
 
 #endif // GAME_H

@@ -62,14 +62,27 @@ void BlockGrid::draw() const
     }
 }
 
-bool BlockGrid::flip_colours(::Color colour)
+bool BlockGrid::complete() const
 {
     const auto top_left = block(0, 0).colour();
 
-    // if the top left is already the clicked colour return that we didn't flip anything
+    for (const auto &row : blocks_)
+    {
+        if (std::find_if(row.cbegin(), row.cend(), [top_left](const auto &block) { return !block.is(top_left); }) !=
+            row.cend())
+            return false;
+    }
+
+    return true;
+}
+
+bool BlockGrid::flip_colours(::Color colour)
+{
+    // if the top left is already the clicked colour, return that we didn't flip anything
     if (block(0, 0).is(colour))
         return false;
 
+    const auto top_left = block(0, 0).colour();
     std::vector<GridPos> list{{0, 0}};
     const auto queued = [&list](GridPos pos) { return std::find(list.cbegin(), list.cend(), pos) != list.cend(); };
 
@@ -86,7 +99,7 @@ bool BlockGrid::flip_colours(::Color colour)
 
     for (GridPos pos : list)
     {
-        block(pos).change_colour(colour);
+        blocks_[pos.row][pos.col].change_colour(colour);
     }
 
     return true; // We changed at least one block;

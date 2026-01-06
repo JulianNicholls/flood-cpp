@@ -16,6 +16,7 @@ class BlockGrid
 
     bool update();
     void draw() const;
+    bool complete() const;
 
   private:
     struct GridPos
@@ -29,12 +30,12 @@ class BlockGrid
         }
     };
 
-    Block &block(GridPos pos)
+    const Block &block(GridPos pos) const
     {
         return block(pos.col, pos.row);
     };
 
-    Block &block(std::size_t col, std::size_t row)
+    const Block &block(std::size_t col, std::size_t row) const
     {
         return blocks_[row][col];
     };

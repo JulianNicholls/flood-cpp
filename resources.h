@@ -7,6 +7,7 @@
 
 namespace Flood::Constants
 {
+
 inline constexpr auto BorderSize = 5zu;
 inline constexpr auto Columns = 12zu;
 inline constexpr auto Rows = 12zu;
@@ -21,6 +22,7 @@ inline constexpr auto Height = BorderSize * 3 + HeaderHeight + Rows * BlockSize 
 
 inline constexpr std::array<::Color, 6> ColorTable =
     {ORANGE, DARKBLUE, DARKPURPLE, YELLOW, GREEN, ::Color{0, 200, 200, 255}};
+
 }
 
 #endif // CONSTANTS_H
