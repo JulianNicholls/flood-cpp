@@ -5,6 +5,7 @@
 
 namespace
 {
+
 void centre(
     const CPPRaylib::Window &window,
     const ::Font &font,
@@ -18,20 +19,19 @@ void centre(
 
     ::DrawTextEx(font, text.c_str(), {window.width / 2.0f - textsize.x / 2.0f, y}, size, spacing, colour);
 }
+
 }
 
 namespace Flood
 {
 
-// const std::unordered_map<GameState, void (Game::*)()> Game::updates_ = {
-//     {GameState::STARTING, &Game::updateStarting},
+// inline const std::unordered_map<GameState, void (Game::*)()> Game::updates_ = {
 //     {GameState::PLAYING, &Game::updatePlaying},
 //     {GameState::SUCCESS, &Game::updateEnding},
 //     {GameState::FAILURE, &Game::updateEnding},
 //     {GameState::COMPLETE, &Game::updateNothing}};
-
-// const std::unordered_map<GameState, void (Game::*)() const> Game::draws_ = {
-//     {GameState::STARTING, &Game::drawStarting},
+//
+// inline const std::unordered_map<GameState, void (Game::*)() const> Game::draws_ = {
 //     {GameState::PLAYING, &Game::drawPlaying},
 //     {GameState::SUCCESS, &Game::drawEnding},
 //     {GameState::FAILURE, &Game::drawEnding},
@@ -67,14 +67,19 @@ void Game::update()
 {
     switch (state_)
     {
-        case GameState::PLAYING:
+        using enum GameState;
 
+        case PLAYING:
             if (grid_.update())
                 ++moves_;
 
             if (grid_.complete())
                 state_ = GameState::SUCCESS;
             break;
+
+        case SUCCESS:
+        case FAILURE:
+        case COMPLETE: break;
     }
 }
 
@@ -84,24 +89,36 @@ void Game::draw() const
 
     switch (state_)
     {
-        case GameState::PLAYING:
-        {
-            const auto elapsed = static_cast<int>(::GetTime());
-            const auto time = std::format("{}:{:0>2}", elapsed / 60, elapsed % 60);
-            const auto moves = std::format("{} / 25", moves_);
-            const auto size = ::MeasureTextEx(font_, time.c_str(), 30, 1);
-            const ::Vector2 timePos = {
-                Constants::Width - (Constants::BorderSize * 4) - size.x, Constants::BorderSize + 7};
+        using enum GameState;
 
-            ::DrawTextEx(font_, moves.c_str(), {Constants::BorderSize * 4, Constants::BorderSize + 7}, 30, 1, WHITE);
-            ::DrawTextEx(font_, time.c_str(), timePos, 30, 1, WHITE);
-        }
-            grid_.draw();
-            break;
+        case PLAYING: drawPlaying(); break;
 
-        case GameState::FAILURE:
-        case GameState::SUCCESS: centre(window_, font_, "Complete", Constants::Height / 2.0f, 36, 1, BLACK); break;
+        case FAILURE:
+        case SUCCESS:
+        case COMPLETE: centre(window_, font_, "Complete", Constants::Height / 2.0f, 36, 1, BLACK); break;
     }
+}
+
+void Game::drawPlaying() const
+{
+    using namespace Constants;
+
+    const auto moves = std::format("{} / 25", moves_);
+    const auto elapsed = static_cast<int>(::GetTime());
+    const auto time = std::format("{}:{:0>2}", elapsed / 60, elapsed % 60);
+    const auto size = ::MeasureTextEx(font_, time.c_str(), 30, 1);
+    const ::Vector2 timePos = {Width - (BorderSize * 4) - size.x, BorderSize + 7};
+
+    ::DrawTextEx(font_, moves.c_str(), {BorderSize * 4, BorderSize + 7}, 30, 1, WHITE);
+    ::DrawTextEx(font_, time.c_str(), timePos, 30, 1, WHITE);
+
+    grid_.draw();
+}
+
+void Game::drawComplete() const
+{
+    centre(window_, font_, "Complete", Constants::Height / 2.0f, 36, 1, BLACK);
+    say_click_to_continue();
 }
 
 void Game::say_click_to_continue() const

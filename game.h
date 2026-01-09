@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <unordered_map>
+
 #include "raylib.h"
 
 #include "block_grid.h"
@@ -30,10 +32,12 @@ class Game
 
   private:
     void say_click_to_continue() const;
+    void drawPlaying() const;
+    void drawComplete() const;
 
     const CPPRaylib::Window &window_;
     GameState state_;
-    ::Font font_;
+    const ::Font font_;
     ImageLoader images_;
     BlockGrid grid_;
 
