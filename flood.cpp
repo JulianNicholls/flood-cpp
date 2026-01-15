@@ -6,7 +6,6 @@
 int main()
 {
     // Config config("hangman.cfg");
-    // const size_t min_length = stoi(config.at("min_word_length"));
 
     ::SetTraceLogLevel(LOG_WARNING);
 

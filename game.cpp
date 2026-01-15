@@ -95,7 +95,7 @@ void Game::draw() const
 
         case FAILURE:
         case SUCCESS:
-        case COMPLETE: centre(window_, font_, "Complete", Constants::Height / 2.0f, 36, 1, BLACK); break;
+        case COMPLETE: drawComplete(); break;
     }
 }
 
@@ -123,7 +123,7 @@ void Game::drawComplete() const
 
 void Game::say_click_to_continue() const
 {
-    centre(window_, font_, "Click to Continue", 600, 36, 0, DARKBLUE);
+    centre(window_, font_, "Click to Continue", Constants::Height / 2.0f + 70, 36, 0, DARKBLUE);
 }
 
 }

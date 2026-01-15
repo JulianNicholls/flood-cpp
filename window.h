@@ -10,6 +10,7 @@
 
 namespace CPPRaylib
 {
+
 struct Window
 {
     Window(int _width, int _height, std::string_view title)
@@ -31,5 +32,6 @@ struct Window
     int width;
     int height;
 };
-#endif // WINDOW_H
+
 }
+#endif // WINDOW_H

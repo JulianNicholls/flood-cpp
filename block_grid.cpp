@@ -48,7 +48,17 @@ bool BlockGrid::update()
         static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
     const ::Color colour = block(idxpos).colour();
 
-    return flip_colours(colour);
+    const auto flipped = flip_colours(colour);
+
+    for (auto &row : blocks_)
+    {
+        for (auto &b : row)
+        {
+            b.update();
+        }
+    }
+
+    return flipped;
 }
 
 void BlockGrid::draw() const

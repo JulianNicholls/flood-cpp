@@ -21,12 +21,17 @@ class Block
     {
     }
 
-    void draw() const
+    virtual void update()
+    {
+        // Nothing by default
+    }
+
+    virtual void draw() const
     {
         ::DrawRectangleV(pos_, size_, colour_);
     };
 
-    void change_colour(::Color new_colour)
+    virtual void change_colour(::Color new_colour)
     {
         colour_ = new_colour;
     }
