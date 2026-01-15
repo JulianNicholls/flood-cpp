@@ -4,11 +4,12 @@
 #include <cstddef>
 #include <vector>
 
-#include "block.h"
+#include "animated_block.h"
 #include "raylib.h"
 
 namespace Flood
 {
+
 class BlockGrid
 {
   public:
@@ -30,12 +31,12 @@ class BlockGrid
         }
     };
 
-    const Block &block(GridPos pos) const
+    const AnimatedBlock &block(GridPos pos) const
     {
         return block(pos.col, pos.row);
     };
 
-    const Block &block(std::size_t col, std::size_t row) const
+    const AnimatedBlock &block(std::size_t col, std::size_t row) const
     {
         return blocks_[row][col];
     };
@@ -46,8 +47,9 @@ class BlockGrid
     ::Vector2 pos_;
     std::size_t columns_;
     std::size_t rows_;
-    std::vector<std::vector<Block>> blocks_;
+    std::vector<std::vector<AnimatedBlock>> blocks_;
 };
+
 }
 
 #endif // BLOCKGRID_H

@@ -1,5 +1,5 @@
-#ifndef BLOCK_H
-#define BLOCK_H
+#ifndef ANIMATED_BLOCK_H
+#define ANIMATED_BLOCK_H
 
 #include <format>
 #include <string>
@@ -145,4 +145,4 @@ inline std::string to_string(const ::Color &c)
 }
 }
 
-#endif // BLOCK_H
+#endif // ANIMATED_BLOCK_H

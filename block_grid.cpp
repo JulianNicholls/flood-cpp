@@ -4,7 +4,7 @@
 
 #include "raylib.h"
 
-#include "block.h"
+#include "animated_block.h"
 #include "block_grid.h"
 #include "resources.h"
 
@@ -39,6 +39,14 @@ BlockGrid::BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns)
 
 bool BlockGrid::update()
 {
+    for (auto &row : blocks_)
+    {
+        for (auto &b : row)
+        {
+            b.update();
+        }
+    }
+
     if (!::IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         return false;
 
@@ -48,17 +56,7 @@ bool BlockGrid::update()
         static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
     const ::Color colour = block(idxpos).colour();
 
-    const auto flipped = flip_colours(colour);
-
-    for (auto &row : blocks_)
-    {
-        for (auto &b : row)
-        {
-            b.update();
-        }
-    }
-
-    return flipped;
+    return flip_colours(colour);
 }
 
 void BlockGrid::draw() const
@@ -109,7 +107,7 @@ bool BlockGrid::flip_colours(::Color colour)
 
     for (GridPos pos : list)
     {
-        blocks_[pos.row][pos.col].change_colour(colour);
+        blocks_[pos.row][pos.col].change_colour(colour, 15);
     }
 
     return true; // We changed at least one block;
