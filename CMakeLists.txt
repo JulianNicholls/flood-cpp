@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 # set the project name and version
-project(flood-puzzle LANGUAGES CXX VERSION 0.1)
+project(flood-puzzle LANGUAGES CXX VERSION 0.2)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -21,22 +21,12 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raylib)
 
-# add_library (hangman
-#     config.cpp
-#     wordlist.cpp
-#     word.cpp
-# )
+add_executable(flood flood.cpp game.cpp block_grid.cpp images.cpp)
 
-add_executable(flood
-    flood.cpp
-    game.cpp
-    block_grid.cpp
-    images.cpp
-)
+add_executable(animate-test animate-test.cpp animate-loop.cpp)
 
 target_link_libraries(flood raylib)
-# target_link_libraries(text_hangman hangman)
-# target_link_libraries(testconfig hangman)
+target_link_libraries(animate-test raylib)
 
 # Platform-specific settings
 if(APPLE)
