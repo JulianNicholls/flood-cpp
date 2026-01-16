@@ -5,8 +5,8 @@
 
 #include "raylib.h"
 
-// An RAII Window class that merely initialises and shuts down Raylib.
-// It's needed because many things in Raylib require the window to be initialised first.
+// An RAII Window class that initialises and shuts down parts of Raylib.
+// It's needed because things in Raylib require the window and other parts to be initialised first.
 
 namespace CPPRaylib
 {
@@ -31,6 +31,11 @@ struct Window
 
     ~Window()
     {
+        if (::IsAudioDeviceReady())
+        {
+            ::CloseAudioDevice();
+        }
+
         ::CloseWindow();
     }
 

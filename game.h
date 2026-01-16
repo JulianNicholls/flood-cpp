@@ -1,8 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <unordered_map>
-
 #include "raylib.h"
 
 #include "block_grid.h"
@@ -24,7 +22,7 @@ class Game
 {
   public:
     Game(const CPPRaylib::Window &window);
-    ~Game() = default;
+    ~Game();
 
     void run();
     void update();
@@ -43,9 +41,6 @@ class Game
     ::Sound changeSound_;
 
     unsigned int moves_ = 0;
-
-    // const static std::unordered_map<GameState, void (Game::*)()> updates_;
-    // const static std::unordered_map<GameState, void (Game::*)() const> draws_;
 };
 
 }

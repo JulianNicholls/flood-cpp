@@ -38,6 +38,11 @@ Game::Game(const CPPRaylib::Window &window)
     // ::itKey(0); // Disable Esc to exit
 }
 
+Game::~Game()
+{
+    UnloadSound(changeSound_);
+}
+
 void Game::run()
 {
     while (!::WindowShouldClose() && state_ != GameState::COMPLETE)
