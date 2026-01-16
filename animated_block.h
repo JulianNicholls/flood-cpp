@@ -89,7 +89,8 @@ class AnimatedBlock
             fcolour_ += finc_;
 
             // Basically reached the new colour, stop incrementing
-            if (std::fabs(fcolour_.fr - colour_.r) < 0.1)
+            if (std::fabs(fcolour_.fr - colour_.r) < 0.1 && std::fabs(fcolour_.fg - colour_.g) < 0.1 &&
+                std::fabs(fcolour_.fb - colour_.b) < 0.1)
             {
                 finc_ = {};
             }

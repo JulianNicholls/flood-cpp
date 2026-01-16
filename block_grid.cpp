@@ -107,7 +107,7 @@ bool BlockGrid::flip_colours(::Color colour)
 
     for (GridPos pos : list)
     {
-        blocks_[pos.row][pos.col].change_colour(colour, 15);
+        blocks_[pos.row][pos.col].change_colour(colour, 20);
     }
 
     return true; // We changed at least one block;
