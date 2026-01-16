@@ -52,8 +52,20 @@ bool BlockGrid::update()
 
     const auto mpos = ::GetMousePosition();
     const ::Vector2 relpos{mpos.x - pos_.x, mpos.y - pos_.y};
+
+    if (relpos.x < 0 || relpos.y < 0)
+    {
+        return false;
+    }
+
     const GridPos idxpos{
         static_cast<size_t>(relpos.x) / Constants::BlockSize, static_cast<size_t>(relpos.y) / Constants::BlockSize};
+
+    if (idxpos.col >= columns_ || idxpos.row >= rows_)
+    {
+        return false;
+    }
+
     const ::Color colour = block(idxpos).colour();
 
     return flip_colours(colour);
