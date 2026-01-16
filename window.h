@@ -13,11 +13,16 @@ namespace CPPRaylib
 
 struct Window
 {
-    Window(int _width, int _height, std::string_view title)
+    Window(int _width, int _height, std::string_view title, bool audioNeeded = false)
         : width{_width}
         , height{_height}
     {
         ::InitWindow(width, height, std::string(title).c_str());
+
+        if (audioNeeded)
+        {
+            ::InitAudioDevice();
+        }
     }
 
     Window(const Window &other) = delete;

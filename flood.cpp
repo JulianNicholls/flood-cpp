@@ -9,7 +9,8 @@ int main()
 
     ::SetTraceLogLevel(LOG_WARNING);
 
-    CPPRaylib::Window window{Flood::Constants::Width, Flood::Constants::Height, "Flood Puzzle"};
+    CPPRaylib::Window window{
+        Flood::Constants::Width, Flood::Constants::Height, "Flood Puzzle", true}; // Initialise Audio
     Flood::Game game{window};
 
     game.run();

@@ -40,6 +40,7 @@ class Game
     const ::Font font_;
     ImageLoader images_;
     BlockGrid grid_;
+    ::Sound changeSound_;
 
     unsigned int moves_ = 0;
 

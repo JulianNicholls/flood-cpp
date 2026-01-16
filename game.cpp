@@ -25,28 +25,17 @@ void centre(
 namespace Flood
 {
 
-// inline const std::unordered_map<GameState, void (Game::*)()> Game::updates_ = {
-//     {GameState::PLAYING, &Game::updatePlaying},
-//     {GameState::SUCCESS, &Game::updateEnding},
-//     {GameState::FAILURE, &Game::updateEnding},
-//     {GameState::COMPLETE, &Game::updateNothing}};
-//
-// inline const std::unordered_map<GameState, void (Game::*)() const> Game::draws_ = {
-//     {GameState::PLAYING, &Game::drawPlaying},
-//     {GameState::SUCCESS, &Game::drawEnding},
-//     {GameState::FAILURE, &Game::drawEnding},
-//     {GameState::COMPLETE, &Game::drawNothing}};
-
 Game::Game(const CPPRaylib::Window &window)
     : window_{window}
     , state_{GameState::PLAYING}
     , font_{LoadFontEx("../assets/BebasNeue-Regular.ttf", 24, nullptr, 0)}
     , images_{ImageLoader{"../assets"}}
     , grid_{Constants::GridOrigin, Constants::Rows, Constants::Columns}
+    , changeSound_{::LoadSound("../assets/change.mp3")}
     , moves_{0}
 {
     ::SetTargetFPS(60);
-    // ::SetExitKey(0); // Disable Esc to exit
+    // ::itKey(0); // Disable Esc to exit
 }
 
 void Game::run()
@@ -71,10 +60,15 @@ void Game::update()
 
         case PLAYING:
             if (grid_.update())
+            {
+                PlaySound(changeSound_);
                 ++moves_;
+            }
 
             if (grid_.complete())
+            {
                 state_ = GameState::SUCCESS;
+            }
             break;
 
         case SUCCESS:
@@ -125,5 +119,4 @@ void Game::say_click_to_continue() const
 {
     centre(window_, font_, "Click to Continue", Constants::Height / 2.0f + 70, 36, 0, DARKBLUE);
 }
-
 }
