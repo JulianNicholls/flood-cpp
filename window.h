@@ -43,5 +43,6 @@ struct Window
     int height;
 };
 
-}
+} // namespace CPPRaylib
+
 #endif // WINDOW_H

@@ -21,7 +21,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raylib)
 
-add_executable(flood flood.cpp game.cpp block_grid.cpp images.cpp)
+add_executable(flood flood.cpp game.cpp block_grid.cpp images.cpp button.cpp)
 
 add_executable(animate-test animate-test.cpp animate-loop.cpp)
 
