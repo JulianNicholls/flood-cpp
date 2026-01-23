@@ -39,9 +39,9 @@ Game::Game(const CPPRaylib::Window &window)
     ::SetTargetFPS(60);
 
     button_ = std::make_unique<CPPRaylib::Button>(CPPRaylib::ButtonSpec{
-        .pos = {250, Constants::Height / 2.0 + 70},
+        .pos = {-245, Constants::Height / 2.0 + 70},
         .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
-        .bg_colour = SKYBLUE,
+        .bg_colour = DARKBLUE,
         .text_colour = WHITE,
         .font = font_,
         .font_size = 36,

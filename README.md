@@ -20,11 +20,12 @@ cmake ..
 cmake --build .
 ```
 
-then you can run `flood`
+then you can run `flood` (and `animate-test`)
 
 et voila.
 
 ## Caveat
 
 I've built and run this on my Mac and also under WSL on Windows.
+It doesn't seem to run exactly correctly under Windows.
 
