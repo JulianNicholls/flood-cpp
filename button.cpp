@@ -7,8 +7,7 @@ namespace CPPRaylib
 {
 
 Button::Button(const ButtonSpec &spec)
-    : pos_{spec.pos}
-    , bg_colour_{spec.bg_colour}
+    : bg_colour_{spec.bg_colour}
     , text_colour_{spec.text_colour}
     , font_{spec.font}
     , caption_{spec.caption}
@@ -16,7 +15,7 @@ Button::Button(const ButtonSpec &spec)
 {
     if (spec.font_size == AUTO)
     {
-        font_size_ = 24;
+        font_size_ = 36;
     }
     else
     {
@@ -34,27 +33,48 @@ Button::Button(const ButtonSpec &spec)
     {
         size_ = spec.size;
     }
+
+    if (spec.pos.x > 0)
+    { // Actual x position
+        pos_.x = spec.pos.x;
+    }
+    else
+    {
+        // Centre horizontally
+        pos_.x = -spec.pos.x - size_.x / 2;
+    }
+
+    if (spec.pos.y > 0)
+    { // Actual y position
+        pos_.y = spec.pos.y;
+    }
+    else
+    {
+        // Centre vertically
+        pos_.y = -spec.pos.y - size_.y / 2;
+    }
 }
 
 void Button::draw() const
 {
     const auto mouse_pos = ::GetMousePosition();
     auto bg = bg_colour_;
+    const ::Rectangle rect{pos_.x, pos_.y, size_.x, size_.y};
 
     // Lighten the background when hovered
-    if (mouse_pos.x >= pos_.x && mouse_pos.x < pos_.x + size_.x && mouse_pos.y >= pos_.y &&
-        mouse_pos.y < pos_.y + size_.y)
+    if (::CheckCollisionPointRec(::GetMousePosition(), rect))
     {
         bg = ::ColorBrightness(bg_colour_, 0.2f);
     }
 
     if (shadow_)
     {
-        ::DrawRectangleRounded(
-            {pos_.x + 3, pos_.y + 3, size_.x, size_.y}, 0.4f, 8, ::Fade(::ColorBrightness(bg, -0.5f), 0.5f));
+        const ::Rectangle shadow_rect{pos_.x + 4, pos_.y + 4, size_.x, size_.y};
+
+        ::DrawRectangleRounded(shadow_rect, 0.5f, 64, ::Fade(::ColorBrightness(bg, -0.4f), 0.5f));
     }
 
-    ::DrawRectangleRounded({pos_.x, pos_.y, size_.x, size_.y}, 0.4f, 8, bg);
+    ::DrawRectangleRounded(rect, 0.5f, 64, bg);
 
     ::DrawTextEx(
         font_,
@@ -72,10 +92,9 @@ bool Button::update() const
         return false;
     }
 
-    const auto mouse_pos = ::GetMousePosition();
+    const ::Rectangle rect{pos_.x, pos_.y, size_.x, size_.y};
 
-    if (mouse_pos.x >= pos_.x && mouse_pos.x < pos_.x + size_.x && mouse_pos.y >= pos_.y &&
-        mouse_pos.y < pos_.y + size_.y)
+    if (::CheckCollisionPointRec(::GetMousePosition(), rect))
     {
         return true;
     }

@@ -8,7 +8,7 @@ AnimateLoop::AnimateLoop(const CPPRaylib::Window &window)
     : window_{window}
     , block_{{100, 100}, YELLOW, {400, 400}}
     , button_{
-          {.pos = {100, 600},
+          {.pos = {-300, -300}, // Centre on 300, 300
            .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
            .bg_colour = DARKBLUE,
            .text_colour = WHITE,
