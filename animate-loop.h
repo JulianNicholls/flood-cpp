@@ -4,6 +4,7 @@
 #include "raylib.h"
 
 #include "animated_block.h"
+#include "button.h"
 #include "window.h"
 
 class AnimateLoop
@@ -19,6 +20,7 @@ class AnimateLoop
   private:
     const CPPRaylib::Window &window_;
     Flood::AnimatedBlock block_;
+    CPPRaylib::Button button_;
 };
 
 #endif // ANIMATE_LOOP_H

@@ -9,7 +9,7 @@ int main()
 
     ::SetTraceLogLevel(LOG_WARNING);
 
-    CPPRaylib::Window window{800, 800, "Flood Puzzle"};
+    CPPRaylib::Window window{800, 800, "Testing 1.. 2.. 3.."};
     AnimateLoop loop{window};
 
     loop.run();

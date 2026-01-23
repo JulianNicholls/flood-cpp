@@ -28,7 +28,7 @@ Button::Button(const ButtonSpec &spec)
     if (spec.size.x == AUTO)
     {
         // Use the text measure
-        size_ = {text_measure_.x + font_size_, text_measure_.y + font_size_};
+        size_ = {text_measure_.x + font_size_, text_measure_.y + font_size_ / 2};
     }
     else
     {
@@ -38,31 +38,36 @@ Button::Button(const ButtonSpec &spec)
 
 void Button::draw() const
 {
-    ::DrawRectangleV(pos_, size_, bg_colour_);
+    if (shadow_)
+    {
+        ::DrawRectangleRounded(
+            {pos_.x + 3, pos_.y + 3, size_.x, size_.y}, 0.4f, 8, ::Fade(::ColorBrightness(bg_colour_, -0.5f), 0.5f));
+    }
+
+    ::DrawRectangleRounded({pos_.x, pos_.y, size_.x, size_.y}, 0.4f, 8, bg_colour_);
+    //::DrawRectangleV(pos_, size_, bg_colour_);
     ::DrawTextEx(
         font_,
         caption_.c_str(),
-        {size_.x / 2 - text_measure_.x / 2, size_.y / 2 - text_measure_.y / 2},
+        {pos_.x + (size_.x / 2 - text_measure_.x / 2), pos_.y + (size_.y / 2 - text_measure_.y / 2)},
         font_size_,
         0,
         text_colour_);
-
-    if (shadow_)
-    {
-        const ::Vector2 top_right{pos_.x + 2 + size_.x, pos_.y};
-        const ::Vector2 bottom_left{pos_.x + 2, pos_.y + 2 + size_.y};
-        const ::Vector2 bottom_right{top_right.x, bottom_left.y};
-
-        ::DrawLineEx(top_right, bottom_right, 2, BLACK);
-        ::DrawLineEx(bottom_left, bottom_right, 2, BLACK);
-    }
 }
 
 bool Button::update() const
 {
-    if (!::IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    if (!::IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         return false;
+    }
+
+    const auto mouse_pos = ::GetMousePosition();
+
+    if (mouse_pos.x >= pos_.x && mouse_pos.x < pos_.x + size_.x && mouse_pos.y >= pos_.y &&
+        mouse_pos.y < pos_.y + size_.y)
+    {
+        return true;
     }
 
     return false;

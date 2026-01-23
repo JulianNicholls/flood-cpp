@@ -1,10 +1,21 @@
 #include "raylib.h"
 
 #include "animate-loop.h"
+#include "button.h"
+#include "window.h"
 
 AnimateLoop::AnimateLoop(const CPPRaylib::Window &window)
     : window_{window}
-    , block_{{100, 100}, RED, {400, 400}}
+    , block_{{100, 100}, YELLOW, {400, 400}}
+    , button_{
+          {.pos = {100, 600},
+           .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
+           .bg_colour = DARKBLUE,
+           .text_colour = WHITE,
+           .font = LoadFontEx("../assets/BebasNeue-Regular.ttf", 36, nullptr, 0),
+           .font_size = 36,
+           .caption = "Press Me",
+           .shadow = CPPRaylib::SHADOW}}
 {
     ::SetTargetFPS(60);
     // ::SetExitKey(0); // Disable Esc to exit
@@ -26,12 +37,17 @@ void AnimateLoop::run()
 
 void AnimateLoop::update()
 {
-    if (::IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        block_.change_colour(block_.colour().r != 0 ? BLUE : RED, 15);
+    if (button_.update())
+        block_.change_colour(block_.is(YELLOW) ? MAGENTA : YELLOW, 15);
+
     block_.update();
+    button_.update();
 }
 
 void AnimateLoop::draw() const
 {
+    ::ClearBackground(WHITE);
+
     block_.draw();
+    button_.draw();
 }

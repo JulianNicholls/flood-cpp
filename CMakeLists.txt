@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 # set the project name and version
-project(flood-puzzle LANGUAGES CXX VERSION 0.2)
+project(flood-puzzle LANGUAGES CXX VERSION 0.3)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -23,7 +23,7 @@ FetchContent_MakeAvailable(raylib)
 
 add_executable(flood flood.cpp game.cpp block_grid.cpp images.cpp button.cpp)
 
-add_executable(animate-test animate-test.cpp animate-loop.cpp)
+add_executable(animate-test animate-test.cpp animate-loop.cpp button.cpp)
 
 target_link_libraries(flood raylib)
 target_link_libraries(animate-test raylib)
