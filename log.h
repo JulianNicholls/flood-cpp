@@ -1,16 +1,9 @@
 #pragma once
 
-#include <exception>
 #include <filesystem>
 #include <format>
-#include <fstream>
 #include <print>
 #include <source_location>
-#include <string>
-#include <string_view>
-#include <vector>
-
-#include "config.h"
 
 namespace Flood::log
 {

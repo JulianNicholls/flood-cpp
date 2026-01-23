@@ -38,18 +38,28 @@ Button::Button(const ButtonSpec &spec)
 
 void Button::draw() const
 {
+    const auto mouse_pos = ::GetMousePosition();
+    auto bg = bg_colour_;
+
+    // Lighten the background when hovered
+    if (mouse_pos.x >= pos_.x && mouse_pos.x < pos_.x + size_.x && mouse_pos.y >= pos_.y &&
+        mouse_pos.y < pos_.y + size_.y)
+    {
+        bg = ::ColorBrightness(bg_colour_, 0.2f);
+    }
+
     if (shadow_)
     {
         ::DrawRectangleRounded(
-            {pos_.x + 3, pos_.y + 3, size_.x, size_.y}, 0.4f, 8, ::Fade(::ColorBrightness(bg_colour_, -0.5f), 0.5f));
+            {pos_.x + 3, pos_.y + 3, size_.x, size_.y}, 0.4f, 8, ::Fade(::ColorBrightness(bg, -0.5f), 0.5f));
     }
 
-    ::DrawRectangleRounded({pos_.x, pos_.y, size_.x, size_.y}, 0.4f, 8, bg_colour_);
-    //::DrawRectangleV(pos_, size_, bg_colour_);
+    ::DrawRectangleRounded({pos_.x, pos_.y, size_.x, size_.y}, 0.4f, 8, bg);
+
     ::DrawTextEx(
         font_,
         caption_.c_str(),
-        {pos_.x + (size_.x / 2 - text_measure_.x / 2), pos_.y + (size_.y / 2 - text_measure_.y / 2)},
+        {pos_.x + (size_.x / 2 - text_measure_.x / 2), pos_.y + (size_.y / 2 - text_measure_.y / 2.2f)},
         font_size_,
         0,
         text_colour_);
