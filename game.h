@@ -1,9 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <memory>
+
 #include "raylib.h"
 
 #include "block_grid.h"
+#include "button.h"
 #include "images.h"
 #include "window.h"
 
@@ -39,6 +42,7 @@ class Game
     ImageLoader images_;
     BlockGrid grid_;
     ::Sound changeSound_;
+    std::unique_ptr<CPPRaylib::Button> button_;
 
     unsigned int moves_ = 0;
 };

@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "raylib.h"
 
 #include "game.h"
@@ -28,14 +30,23 @@ namespace Flood
 Game::Game(const CPPRaylib::Window &window)
     : window_{window}
     , state_{GameState::PLAYING}
-    , font_{LoadFontEx("../assets/BebasNeue-Regular.ttf", 24, nullptr, 0)}
+    , font_{LoadFontEx("../assets/BebasNeue-Regular.ttf", 36, nullptr, 0)}
     , images_{ImageLoader{"../assets"}}
     , grid_{Constants::GridOrigin, Constants::Rows, Constants::Columns}
     , changeSound_{::LoadSound("../assets/change.mp3")}
     , moves_{0}
 {
     ::SetTargetFPS(60);
-    // ::itKey(0); // Disable Esc to exit
+
+    button_ = std::make_unique<CPPRaylib::Button>(CPPRaylib::ButtonSpec{
+        .pos = {250, Constants::Height / 2.0 + 70},
+        .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
+        .bg_colour = SKYBLUE,
+        .text_colour = WHITE,
+        .font = font_,
+        .font_size = 36,
+        .caption = "Exit",
+        .shadow = CPPRaylib::SHADOW});
 }
 
 Game::~Game()
@@ -72,12 +83,16 @@ void Game::update()
 
             if (grid_.complete())
             {
-                state_ = GameState::SUCCESS;
+                state_ = SUCCESS;
             }
             break;
 
         case SUCCESS:
         case FAILURE:
+            if (button_->update())
+                state_ = COMPLETE;
+            break;
+
         case COMPLETE: break;
     }
 }
@@ -117,7 +132,8 @@ void Game::drawPlaying() const
 void Game::drawComplete() const
 {
     centre(window_, font_, "Complete", Constants::Height / 2.0f, 36, 1, BLACK);
-    say_click_to_continue();
+
+    button_->draw();
 }
 
 void Game::say_click_to_continue() const
