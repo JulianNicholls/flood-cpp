@@ -9,68 +9,6 @@
 namespace Flood
 {
 
-struct FractionalColour
-{
-    float fr;
-    float fg;
-    float fb;
-    float fa;
-
-    FractionalColour()
-        : fr{0}
-        , fg{0}
-        , fb{0}
-        , fa{0}
-    {
-    }
-
-    FractionalColour(float r, float g, float b, float a)
-        : fr{r}
-        , fg{g}
-        , fb{b}
-        , fa{a}
-    {
-    }
-
-    FractionalColour(::Color other)
-        : fr{other.r * 1.0f}
-        , fg{other.g * 1.0f}
-        , fb{other.b * 1.0f}
-        , fa{other.a * 1.0f}
-    {
-    }
-
-    FractionalColour &operator+=(const FractionalColour &other)
-    {
-        fr += other.fr;
-        fg += other.fg;
-        fb += other.fb;
-        fa += other.fa;
-
-        return *this;
-    }
-
-    bool empty() const
-    {
-        return fr == 0.0f && fg == 0.0f && fb == 0.0f && fa == 0.0f;
-    }
-
-    ::Color color() const
-    {
-        return ::Color{
-            static_cast<unsigned char>(std::roundf(fr)),
-            static_cast<unsigned char>(std::roundf(fg)),
-            static_cast<unsigned char>(std::roundf(fb)),
-            static_cast<unsigned char>(std::roundf(fa)),
-        };
-    }
-
-    std::string to_string()
-    {
-        return std::format("[{:6.2f}, {:6.2f}, {:6.2f}, {:6.2f}]", fr, fg, fb, fa);
-    }
-};
-
 class AnimatedBlock
 {
   public:
@@ -78,46 +16,42 @@ class AnimatedBlock
         : pos_{pos}
         , size_{size}
         , colour_{colour}
-        , fcolour_{}
+        , lerp_{}
     {
     }
 
     void update()
     {
-        if (!finc_.empty())
+        if (lerp_ != 0.0f)
         {
-            fcolour_ += finc_;
+            lerp_ += finc_;
 
-            // Basically reached the new colour, stop incrementing
-            if (std::fabs(fcolour_.fr - colour_.r) < 0.1 && std::fabs(fcolour_.fg - colour_.g) < 0.1 &&
-                std::fabs(fcolour_.fb - colour_.b) < 0.1)
+            if (lerp_ >= 1.0f)
             {
-                finc_ = {};
+                lerp_ = 0;
+                finc_ = 0.0f;
             }
         }
     }
 
     void draw() const
     {
-        if (finc_.empty())
+        if (lerp_ == 0.0f)
         {
             ::DrawRectangleV(pos_, size_, colour_);
         }
         else
         {
-            ::DrawRectangleV(pos_, size_, fcolour_.color());
+            ::DrawRectangleV(pos_, size_, ::ColorLerp(prev_colour_, colour_, lerp_));
         }
     };
 
     void change_colour(::Color new_colour, float speed = 60.0f)
     {
-        fcolour_ = colour_;
-        finc_ = {
-            (new_colour.r - colour_.r) / speed,
-            (new_colour.g - colour_.g) / speed,
-            (new_colour.b - colour_.b) / speed,
-            (new_colour.a - colour_.a) / speed,
-        };
+        prev_colour_ = colour_;
+        finc_ = 1 / speed;
+        lerp_ = finc_;
+
         colour_ = new_colour;
     }
 
@@ -128,22 +62,18 @@ class AnimatedBlock
 
     bool is(::Color cand) const
     {
-        return colour_.r == cand.r && colour_.g == cand.g && colour_.b == cand.b && colour_.a == cand.a;
+        return ::ColorIsEqual(colour_, cand);
     }
 
   private:
     ::Vector2 pos_;
     ::Vector2 size_;
     ::Color colour_;
-
-    FractionalColour fcolour_;
-    FractionalColour finc_;
+    ::Color prev_colour_;
+    float lerp_ = 0.0f;
+    float finc_ = 0.0f;
 };
 
-inline std::string to_string(const ::Color &c)
-{
-    return std::format("[{}, {}, {}, {}]", c.r, c.g, c.b, c.a);
-}
 }
 
 #endif // ANIMATED_BLOCK_H

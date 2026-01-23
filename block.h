@@ -43,7 +43,7 @@ class Block
 
     bool is(::Color cand) const
     {
-        return colour_.r == cand.r && colour_.g == cand.g && colour_.b == cand.b && colour_.a == cand.a;
+        return ::ColorIsEqual(colour_, cand);
     }
 
   private:
