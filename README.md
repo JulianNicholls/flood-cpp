@@ -26,5 +26,5 @@ et voila.
 
 ## Caveat
 
-Although I've only built and run this on my Mac, it should build and run on Windows and Linux, I think.
+I've built and run this on my Mac and also under WSL on Windows.
 
