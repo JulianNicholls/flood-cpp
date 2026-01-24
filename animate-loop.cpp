@@ -6,12 +6,13 @@
 
 AnimateLoop::AnimateLoop(const CPPRaylib::Window &window)
     : window_{window}
-    , block_{{100, 100}, YELLOW, {400, 400}}
+    , block_{{100, 100}, BROWN, {400, 400}}
     , button_{
           {.pos = {-300, -300}, // Centre on 300, 300
            .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
-           .bg_colour = DARKBLUE,
+           .bg_colour = BLANK,
            .text_colour = WHITE,
+           .hover_colour = DARKPURPLE,
            .font = LoadFontEx("../assets/BebasNeue-Regular.ttf", 36, nullptr, 0),
            .font_size = 36,
            .caption = "Press Me",
@@ -38,7 +39,7 @@ void AnimateLoop::run()
 void AnimateLoop::update()
 {
     if (button_.update())
-        block_.change_colour(block_.is(YELLOW) ? MAGENTA : YELLOW, 15);
+        block_.change_colour(block_.is(BROWN) ? MAGENTA : BROWN, 15);
 
     block_.update();
     button_.update();
