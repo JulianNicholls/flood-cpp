@@ -42,7 +42,7 @@ class Game
     ImageLoader images_;
     BlockGrid grid_;
     ::Sound changeSound_;
-    std::unique_ptr<CPPRaylib::Button> button_;
+    CPPRaylib::Button exit_button_;
 
     unsigned int moves_ = 0;
 };

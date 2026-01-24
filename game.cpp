@@ -1,5 +1,3 @@
-#include <memory>
-
 #include "raylib.h"
 
 #include "game.h"
@@ -35,18 +33,17 @@ Game::Game(const CPPRaylib::Window &window)
     , grid_{Constants::GridOrigin, Constants::Rows, Constants::Columns}
     , changeSound_{::LoadSound("../assets/change.mp3")}
     , moves_{0}
+    , exit_button_{
+          {.pos = {-245, Constants::Height / 2.0 + 70},
+           .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
+           .bg_colour = DARKBLUE,
+           .text_colour = WHITE,
+           .font = font_,
+           .font_size = 36,
+           .caption = "Exit",
+           .shadow = CPPRaylib::SHADOW}}
 {
     ::SetTargetFPS(60);
-
-    button_ = std::make_unique<CPPRaylib::Button>(CPPRaylib::ButtonSpec{
-        .pos = {-245, Constants::Height / 2.0 + 70},
-        .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
-        .bg_colour = DARKBLUE,
-        .text_colour = WHITE,
-        .font = font_,
-        .font_size = 36,
-        .caption = "Exit",
-        .shadow = CPPRaylib::SHADOW});
 }
 
 Game::~Game()
@@ -89,7 +86,7 @@ void Game::update()
 
         case SUCCESS:
         case FAILURE:
-            if (button_->update())
+            if (exit_button_.update())
                 state_ = COMPLETE;
             break;
 
@@ -133,7 +130,7 @@ void Game::drawComplete() const
 {
     centre(window_, font_, "Complete", Constants::Height / 2.0f, 36, 1, BLACK);
 
-    button_->draw();
+    exit_button_.draw();
 }
 
 void Game::say_click_to_continue() const
