@@ -23,6 +23,8 @@ struct Window
         {
             ::InitAudioDevice();
         }
+
+        ::SetTargetFPS(60); // Default
     }
 
     Window(const Window &other) = delete;

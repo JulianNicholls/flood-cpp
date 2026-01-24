@@ -18,8 +18,6 @@ AnimateLoop::AnimateLoop(const CPPRaylib::Window &window)
            .caption = "Press Me",
            .shadow = CPPRaylib::SHADOW}}
 {
-    ::SetTargetFPS(60);
-    // ::SetExitKey(0); // Disable Esc to exit
 }
 
 void AnimateLoop::run()

@@ -43,7 +43,6 @@ Game::Game(const CPPRaylib::Window &window)
            .caption = "Exit",
            .shadow = CPPRaylib::SHADOW}}
 {
-    ::SetTargetFPS(60);
 }
 
 Game::~Game()
