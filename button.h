@@ -19,6 +19,7 @@ struct ButtonSpec
     ::Vector2 size;
     ::Color bg_colour;
     ::Color text_colour;
+    ::Color hover_colour;
     ::Font font;
     std::size_t font_size;
     std::string_view caption;
@@ -38,6 +39,7 @@ class Button
     ::Vector2 size_;
     ::Color bg_colour_;
     ::Color text_colour_;
+    ::Color hover_colour_;
     ::Font font_;
     float font_size_;
     std::string caption_;

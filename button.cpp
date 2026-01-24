@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <string>
 
 #include "button.h"
@@ -9,6 +10,7 @@ namespace CPPRaylib
 Button::Button(const ButtonSpec &spec)
     : bg_colour_{spec.bg_colour}
     , text_colour_{spec.text_colour}
+    , hover_colour_{spec.hover_colour}
     , font_{spec.font}
     , caption_{spec.caption}
     , shadow_{spec.shadow}
@@ -61,17 +63,25 @@ void Button::draw() const
     auto bg = bg_colour_;
     const ::Rectangle rect{pos_.x, pos_.y, size_.x, size_.y};
 
-    // Lighten the background when hovered
+    // Use the hover colour or lighten the background when hovered
     if (::CheckCollisionPointRec(::GetMousePosition(), rect))
     {
-        bg = ::ColorBrightness(bg_colour_, 0.2f);
+        if (::ColorIsEqual(hover_colour_, BLANK))
+        {
+            bg = ::ColorBrightness(bg_colour_, 0.2f);
+        }
+        else
+        {
+            bg = hover_colour_;
+        }
     }
 
     if (shadow_)
     {
         const ::Rectangle shadow_rect{pos_.x + 4, pos_.y + 4, size_.x, size_.y};
 
-        ::DrawRectangleRounded(shadow_rect, 0.5f, 64, ::Fade(::ColorBrightness(bg, -0.4f), 0.5f));
+        ::DrawRectangleRounded(
+            shadow_rect, 0.5f, 64, ::Fade(::ColorBrightness(bg, -0.4f), std::min(bg_colour_.a / 255.0f, 0.5f)));
     }
 
     ::DrawRectangleRounded(rect, 0.5f, 64, bg);
