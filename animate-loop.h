@@ -1,6 +1,8 @@
 #ifndef ANIMATE_LOOP_H
 #define ANIMATE_LOOP_H
 
+#include <memory>
+
 #include "raylib.h"
 
 #include "animated_block.h"
@@ -14,13 +16,14 @@ class AnimateLoop
     ~AnimateLoop() = default;
 
     void run();
-    void update();
+    bool update();
     void draw() const;
 
   private:
     const CPPRaylib::Window &window_;
     Flood::AnimatedBlock block_;
-    CPPRaylib::Button button_;
+    std::unique_ptr<CPPRaylib::Button> change_button_;
+    std::unique_ptr<CPPRaylib::Button> exit_button_;
 };
 
 #endif // ANIMATE_LOOP_H
