@@ -27,5 +27,5 @@ et voila.
 ## Caveat
 
 I've built and run this on my Mac and also under WSL on Windows.
-It doesn't seem to run exactly correctly under Windows.
+It doesn't seem to run exactly correctly under Windows, but frankly that might be down to my laptop.
 
