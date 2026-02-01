@@ -115,7 +115,7 @@ void Game::drawPlaying() const
 
     const auto moves = std::format("{} / 25", moves_);
     const auto elapsed = static_cast<int>(::GetTime());
-    const auto time = std::format("{}:{:0>2}", elapsed / 60, elapsed % 60);
+    const auto time = std::format("Time {}:{:0>2}", elapsed / 60, elapsed % 60);
     const auto size = ::MeasureTextEx(font_, time.c_str(), 30, 1);
     const ::Vector2 timePos = {Width - (BorderSize * 4) - size.x, BorderSize + 7};
 

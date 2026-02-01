@@ -12,7 +12,7 @@ namespace Flood
 class AnimatedBlock
 {
   public:
-    AnimatedBlock(::Vector2 pos, ::Color colour, ::Vector2 size = {40, 40})
+    AnimatedBlock(::Vector2 pos, ::Color colour, ::Vector2 size = {39, 39})
         : pos_{pos}
         , size_{size}
         , colour_{colour}

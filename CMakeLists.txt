@@ -27,8 +27,3 @@ add_executable(animate-test animate-test.cpp animate-loop.cpp button.cpp)
 
 target_link_libraries(flood raylib)
 target_link_libraries(animate-test raylib)
-
-# Platform-specific settings
-if(APPLE)
-  target_link_libraries(flood "-framework IOKit" "-framework Cocoa" "-framework OpenGL")
-endif()
