@@ -1,9 +1,6 @@
 #ifndef ANIMATED_BLOCK_H
 #define ANIMATED_BLOCK_H
 
-#include <format>
-#include <string>
-
 #include "raylib.h"
 
 namespace Flood
@@ -12,7 +9,7 @@ namespace Flood
 class AnimatedBlock
 {
   public:
-    AnimatedBlock(::Vector2 pos, ::Color colour, ::Vector2 size = {39, 39})
+    AnimatedBlock(::Vector2 pos, ::Color colour, ::Vector2 size = {40, 40})
         : pos_{pos}
         , size_{size}
         , colour_{colour}
@@ -49,7 +46,7 @@ class AnimatedBlock
     void change_colour(::Color new_colour, float speed = 60.0f)
     {
         prev_colour_ = colour_;
-        finc_ = 1 / speed;
+        finc_ = 1.0f / speed;
         lerp_ = finc_;
 
         colour_ = new_colour;

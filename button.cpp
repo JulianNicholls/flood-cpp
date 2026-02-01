@@ -43,7 +43,7 @@ Button::Button(const ButtonSpec &spec)
         size_ = spec.size;
     }
 
-    // If the x or y position is negative, then it should be set so that the position is centered on that as a positive
+    // If the x or y position is negative, then it should be set so that the position is centred on that as a positive
     // value.
     pos_.x = spec.pos.x > 0 ? spec.pos.x : -spec.pos.x - size_.x / 2.0f;
     pos_.y = spec.pos.y > 0 ? spec.pos.y : -spec.pos.y - size_.y / 2.0f;
@@ -78,7 +78,7 @@ void Button::draw() const
 
     ::DrawTextEx(font_, caption_.c_str(), {left, top}, font_size_, 1, text_colour_);
 
-    ::DrawRectangleLines(left, top, text_measure_.x, text_measure_.y, GREEN);
+    // ::DrawRectangleLines(left, top, text_measure_.x, text_measure_.y, GREEN);
 }
 
 // Return whether the button is pressed.

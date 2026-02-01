@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <random>
+#include <ranges>
 #include <vector>
 
 #include "raylib.h"
@@ -32,7 +33,7 @@ BlockGrid::BlockGrid(::Vector2 pos, std::size_t rows, std::size_t columns)
             const float x = pos_.x + col * Constants::BlockSize;
             const float y = pos_.y + row * Constants::BlockSize;
 
-            blocks_[row].push_back({{x, y}, colour});
+            blocks_[row].push_back({{x, y}, colour, {39, 39}});
         }
     }
 }
@@ -88,8 +89,7 @@ bool BlockGrid::complete() const
 
     for (const auto &row : blocks_)
     {
-        if (std::find_if(row.cbegin(), row.cend(), [top_left](const auto &block) { return !block.is(top_left); }) !=
-            row.cend())
+        if (!std::ranges::all_of(row, [top_left](const auto &block) { return block.is(top_left); }))
             return false;
     }
 

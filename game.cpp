@@ -1,3 +1,5 @@
+#include <format>
+
 #include "raylib.h"
 
 #include "game.h"
