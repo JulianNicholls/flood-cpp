@@ -14,7 +14,7 @@ AnimateLoop::AnimateLoop(const CPPRaylib::Window &window)
 
     change_button_ = std::make_unique<CPPRaylib::Button>(CPPRaylib::ButtonSpec{
         .pos = {-400, -400}, // Centre on 400, 400
-        .size = {CPPRaylib::AUTO, CPPRaylib::AUTO},
+        .size = {109, 42},
         .bg_colour = BLANK,
         .text_colour = WHITE,
         .hover_colour = DARKPURPLE,

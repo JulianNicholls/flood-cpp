@@ -4,6 +4,8 @@
 #include "button.h"
 #include "raylib.h"
 
+// #include "log.h"
+
 namespace CPPRaylib
 {
 
@@ -15,48 +17,39 @@ Button::Button(const ButtonSpec &spec)
     , caption_{spec.caption}
     , shadow_{spec.shadow}
 {
-    if (spec.font_size == AUTO)
-    {
-        font_size_ = 36;
-    }
-    else
-    {
-        font_size_ = spec.font_size;
-    }
+    font_size_ = spec.font_size == AUTO ? 36 : spec.font_size;
 
-    text_measure_ = ::MeasureTextEx(font_, caption_.c_str(), font_size_, 0);
+    text_measure_ = ::MeasureTextEx(font_, caption_.c_str(), font_size_, 1);
 
     if (spec.size.x == AUTO)
     {
         // Use the text measure
-        size_ = {text_measure_.x + font_size_, text_measure_.y + font_size_ / 2};
+        auto width = text_measure_.x + font_size_;
+        auto height = text_measure_.y + font_size_ / 3.0f;
+
+        // Flood::log::debug("{} Button: {} x {} raw", caption_, width, height);
+
+        // If it's too square, i.e. less than 16x9, shave the height a little
+        if (width < height * 1.77f)
+        {
+            // Flood::log::debug("{} Button: {} x {} adjusted", caption_, width, height);
+            height *= 0.9f;
+        }
+
+        size_ = {width, height};
     }
     else
     {
         size_ = spec.size;
     }
 
-    if (spec.pos.x > 0)
-    { // Actual x position
-        pos_.x = spec.pos.x;
-    }
-    else
-    {
-        // Centre horizontally
-        pos_.x = -spec.pos.x - size_.x / 2;
-    }
-
-    if (spec.pos.y > 0)
-    { // Actual y position
-        pos_.y = spec.pos.y;
-    }
-    else
-    {
-        // Centre vertically
-        pos_.y = -spec.pos.y - size_.y / 2;
-    }
+    // If the x or y position is negative, then it should be set so that the position is centered on that as a positive
+    // value.
+    pos_.x = spec.pos.x > 0 ? spec.pos.x : -spec.pos.x - size_.x / 2.0f;
+    pos_.y = spec.pos.y > 0 ? spec.pos.y : -spec.pos.y - size_.y / 2.0f;
 }
 
+// Draw the button, highlighting it in the hover colour if it is hovered
 void Button::draw() const
 {
     const auto mouse_pos = ::GetMousePosition();
@@ -66,14 +59,7 @@ void Button::draw() const
     // Use the hover colour or lighten the background when hovered
     if (::CheckCollisionPointRec(::GetMousePosition(), rect))
     {
-        if (::ColorIsEqual(hover_colour_, BLANK))
-        {
-            bg = ::ColorBrightness(bg_colour_, 0.2f);
-        }
-        else
-        {
-            bg = hover_colour_;
-        }
+        bg = ::ColorIsEqual(hover_colour_, BLANK) ? ::ColorBrightness(bg_colour_, 0.2f) : hover_colour_;
     }
 
     if (shadow_)
@@ -86,15 +72,16 @@ void Button::draw() const
 
     ::DrawRectangleRounded(rect, 0.5f, 64, bg);
 
-    ::DrawTextEx(
-        font_,
-        caption_.c_str(),
-        {pos_.x + (size_.x / 2 - text_measure_.x / 2), pos_.y + (size_.y / 2 - text_measure_.y / 2.2f)},
-        font_size_,
-        0,
-        text_colour_);
+    // The top need to be biased up a little because the text measure has a little more at the top than the bottom
+    const auto left = pos_.x + (size_.x / 2.0f - text_measure_.x / 2.0f);
+    const auto top = pos_.y + (size_.y / 2.0f - text_measure_.y / 2.2f);
+
+    ::DrawTextEx(font_, caption_.c_str(), {left, top}, font_size_, 1, text_colour_);
+
+    ::DrawRectangleLines(left, top, text_measure_.x, text_measure_.y, GREEN);
 }
 
+// Return whether the button is pressed.
 bool Button::update() const
 {
     if (!::IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -104,12 +91,7 @@ bool Button::update() const
 
     const ::Rectangle rect{pos_.x, pos_.y, size_.x, size_.y};
 
-    if (::CheckCollisionPointRec(::GetMousePosition(), rect))
-    {
-        return true;
-    }
-
-    return false;
+    return ::CheckCollisionPointRec(::GetMousePosition(), rect);
 }
 
 }
