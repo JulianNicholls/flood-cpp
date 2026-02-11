@@ -6,8 +6,9 @@
 
 #include "raylib.h"
 
-namespace Flood
+namespace CPPRaylib
 {
+
 class ImageLoader
 {
   public:
@@ -32,6 +33,7 @@ class ImageLoader
   private:
     std::unordered_map<std::string, ::Texture2D> images_;
 };
+
 }
 
 #endif // IMAGES_H

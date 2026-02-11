@@ -4,7 +4,9 @@
 
 #include "images.h"
 
-namespace Flood {
+namespace CPPRaylib
+{
+
 ImageLoader::ImageLoader(std::string_view dir)
     : images_{}
 {
@@ -39,4 +41,5 @@ const Texture2D &ImageLoader::operator[](std::string_view name)
 {
     return images_[std::string(name)];
 }
+
 }
