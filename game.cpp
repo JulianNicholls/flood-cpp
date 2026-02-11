@@ -3,6 +3,7 @@
 #include "raylib.h"
 
 #include "game.h"
+#include "images.h"
 #include "resources.h"
 
 namespace
@@ -31,7 +32,7 @@ Game::Game(const CPPRaylib::Window &window)
     : window_{window}
     , state_{GameState::PLAYING}
     , font_{LoadFontEx("../assets/BebasNeue-Regular.ttf", 36, nullptr, 0)}
-    , images_{ImageLoader{"../assets"}}
+    , images_{CPPRaylib::ImageLoader{"../assets"}}
     , grid_{Constants::GridOrigin, Constants::Rows, Constants::Columns}
     , changeSound_{::LoadSound("../assets/change.mp3")}
     , moves_{0}

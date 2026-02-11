@@ -39,7 +39,7 @@ class Game
     const CPPRaylib::Window &window_;
     GameState state_;
     const ::Font font_;
-    ImageLoader images_;
+    CPPRaylib::ImageLoader images_;
     BlockGrid grid_;
     ::Sound changeSound_;
     CPPRaylib::Button exit_button_;
