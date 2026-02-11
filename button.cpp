@@ -4,8 +4,6 @@
 #include "button.h"
 #include "raylib.h"
 
-// #include "log.h"
-
 namespace CPPRaylib
 {
 
@@ -26,8 +24,6 @@ Button::Button(const ButtonSpec &spec)
         // Use the text measure
         auto width = text_measure_.x + font_size_;
         auto height = text_measure_.y + font_size_ / 3.0f;
-
-        // Flood::log::debug("{} Button: {} x {} raw", caption_, width, height);
 
         // If it's too square, i.e. less than 16x9, shave the height a little
         if (width < height * 1.77f)
@@ -77,8 +73,6 @@ void Button::draw() const
     const auto top = pos_.y + (size_.y / 2.0f - text_measure_.y / 2.2f);
 
     ::DrawTextEx(font_, caption_.c_str(), {left, top}, font_size_, 1, text_colour_);
-
-    // ::DrawRectangleLines(left, top, text_measure_.x, text_measure_.y, GREEN);
 }
 
 // Return whether the button is pressed.
@@ -94,4 +88,4 @@ bool Button::update() const
     return ::CheckCollisionPointRec(::GetMousePosition(), rect);
 }
 
-}
+} // namespace CPPRayLib

@@ -22,12 +22,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(raylib)
 
 add_library(cppray
-    images.cpp
+    images.cpp 
+    button.cpp
 )
 target_link_libraries(cppray PUBLIC raylib)
 
-add_executable(flood flood.cpp game.cpp block_grid.cpp button.cpp)
-add_executable(animate-test animate-test.cpp animate-loop.cpp button.cpp)
+add_executable(flood flood.cpp game.cpp block_grid.cpp)
+add_executable(animate-test animate-test.cpp animate-loop.cpp)
 
 target_link_libraries(flood cppray raylib)
-target_link_libraries(animate-test raylib)
+target_link_libraries(animate-test cppray raylib)
